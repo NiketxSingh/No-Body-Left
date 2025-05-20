@@ -7,9 +7,14 @@ public class BreakableWall : MonoBehaviour
     [SerializeField] private GameObject wall;
     [SerializeField] private GameObject noWall;
 
+    private void OnEnable() {
+        PlayerDeath.OnBlast += ReceivedBlast;
+    }
+    private void OnDisable() {
+        PlayerDeath.OnBlast -= ReceivedBlast;
+    }
 
     private void Start() {
-        PlayerDeath.OnBlast += ReceivedBlast;
         wall.SetActive(true);
         noWall.SetActive(false);
     }
@@ -23,6 +28,5 @@ public class BreakableWall : MonoBehaviour
     void BreakWall() {
         wall.SetActive(false);
         noWall.SetActive(true);
-        PlayerDeath.OnBlast -= ReceivedBlast;
     }
 }

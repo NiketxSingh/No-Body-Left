@@ -80,7 +80,7 @@ public class PlayerDeath : MonoBehaviour {
     }
     public void UpdateLives(int count) {
         int newLives = lives + count;
-        if (newLives > 0 && newLives < 10) {
+        if (newLives > 0 && newLives <= 10) {
             lives = newLives;
         }
     } 

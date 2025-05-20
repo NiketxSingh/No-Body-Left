@@ -27,12 +27,12 @@ public class Rotate : MonoBehaviour {
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
-        if (other.CompareTag("dead") || other.CompareTag("player")) {
+        if (other.CompareTag("dead")) {
             onPlate = true;
         }
     }
     private void OnTriggerExit2D(Collider2D other) {
-        if (other.CompareTag("dead") || other.CompareTag("player")) {
+        if (other.CompareTag("dead")) {
             onPlate = false;
         }
     }

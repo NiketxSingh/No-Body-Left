@@ -12,12 +12,12 @@ public class PressurePlate : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
-        if (other.CompareTag("dead") || other.CompareTag("player")) {
+        if (other.CompareTag("dead")) {
             ActivateMechanism();
         }
     }
     private void OnTriggerExit2D(Collider2D other) {
-        if (other.CompareTag("dead") || other.CompareTag("player")) {
+        if (other.CompareTag("dead")) {
             DeactivateMechanism();
         }
     }
