@@ -7,25 +7,25 @@ public class MovingPlatform : MonoBehaviour
     [SerializeField] private float moveSpeed = 2f;
     [SerializeField] private Transform pointA;
     [SerializeField] private Transform pointB;
-    private float destination_x;
-    private float direction_x;
+    private Vector3 targetPosition;
 
     private Rigidbody2D platform_rb;
 
     private void Start() {
         platform_rb = GetComponent<Rigidbody2D>();
-        destination_x = pointB.position.x;
+        targetPosition = pointB.position;
     }
 
     private void FixedUpdate() {
-        direction_x = Mathf.Sign(destination_x - transform.position.x);
-        platform_rb.velocity = new Vector2(direction_x * moveSpeed, 0f);
+        transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
 
-        if(Mathf.Abs(destination_x - transform.position.x) < 0.05 && destination_x>0) {
-            destination_x = pointA.position.x;
-        }
-        else if (Mathf.Abs(destination_x - transform.position.x) < 0.05 && destination_x <0) {
-            destination_x = pointB.position.x;
+        if (Vector3.Distance(transform.position, targetPosition) < 0.5f) {
+            if (targetPosition == pointA.position) {
+                targetPosition = pointB.position;
+            }
+            else {
+                targetPosition = pointA.position;
+            }
         }
     }
 }

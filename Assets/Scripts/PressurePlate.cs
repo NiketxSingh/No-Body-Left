@@ -4,27 +4,30 @@ using UnityEngine;
 
 public class PressurePlate : MonoBehaviour
 {
-    [SerializeField] private GameObject mechanism;
+    [SerializeField] private GameObject doorClosed;
+    [SerializeField] private GameObject doorOpen;
 
     private void Start() {
         DeactivateMechanism();
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
-        if (other.CompareTag("dead")) {
+        if (other.CompareTag("dead") || other.CompareTag("player")) {
             ActivateMechanism();
         }
     }
     private void OnTriggerExit2D(Collider2D other) {
-        if (other.CompareTag("dead")) {
+        if (other.CompareTag("dead") || other.CompareTag("player")) {
             DeactivateMechanism();
         }
     }
 
     private void ActivateMechanism() {
-        mechanism.SetActive(true);
+        doorOpen.SetActive(true);
+        doorClosed.SetActive(false);
     }
     private void DeactivateMechanism() {
-        mechanism.SetActive(false);
+        doorClosed.SetActive(true);
+        doorOpen.SetActive(false);
     }
 }

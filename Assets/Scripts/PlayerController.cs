@@ -28,13 +28,21 @@ public class PlayerController : MonoBehaviour {
     private bool isGrounded = false;
 
     private Rigidbody2D rb;
+    private Animator anim;
 
     void Awake() {
         rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
     }
 
     private void Update() {
         isGrounded = groundCheck(); // check once per frame
+        if (!isGrounded) {
+            anim.SetBool("isJumping", true);
+        }
+        else {
+            anim.SetBool("isJumping",false);
+        }
         HorizontalMovement();
         Jump();
         ApplyGravity();
@@ -61,7 +69,17 @@ public class PlayerController : MonoBehaviour {
 
     private void HorizontalMovement() {
         input_x = Input.GetAxisRaw("Horizontal");
-        rb.velocity = new Vector2(input_x * speed_x, rb.velocity.y);
+
+        if (input_x != 0) {
+            anim.SetBool("isRunning", true);
+            Vector3 scale = transform.localScale;
+            scale.x = Mathf.Sign(input_x) * Mathf.Abs(scale.x);
+            transform.localScale = scale;
+        }
+        else {
+            anim.SetBool("isRunning",false);
+        }
+            rb.velocity = new Vector2(input_x * speed_x, rb.velocity.y);
     }
 
     private void Jump() {

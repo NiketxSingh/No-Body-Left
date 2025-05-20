@@ -4,9 +4,9 @@ using System;
 using UnityEngine;
 
 public class PlayerDeath : MonoBehaviour {
-    [SerializeField] private int lives = 5;
+    [SerializeField] private int lives = 10;
     [SerializeField] private GameObject deadPrefab;
-    [SerializeField] private float deadTime = 5f;
+    [SerializeField] private float deadTime = 50f;
     private Transform spawnLocation;
 
     private List<GameObject> blastedObjects = new List<GameObject>();
@@ -15,14 +15,21 @@ public class PlayerDeath : MonoBehaviour {
 
     public static event Action<Vector2, float> OnBlast;
 
-    private enum DeathType {
-        normal, self, blast
+    [SerializeField] private GameObject cameraManager_GO;
+    Cameramanager cameraManager_;
+
+    [SerializeField] private GameObject MenuManager_GO;
+    private MenuManager menuManager;
+
+    private void Start() {
+        cameraManager_ = cameraManager_GO.GetComponent<Cameramanager>();
+        menuManager = MenuManager_GO.GetComponent<MenuManager>();
     }
 
-    private void Awake() {
-        spawnLocation = GameObject.Find("SpawnLocation").transform;
-    }
     private void Update() {
+
+        spawnLocation = cameraManager_.GetSpawnLocation();
+
         if (Input.GetKeyDown(KeyCode.K) && lives > 0) {
             SelfDeath();
         }
@@ -32,6 +39,7 @@ public class PlayerDeath : MonoBehaviour {
         //get hit to die normally
         if (lives <= 0) {
             gameObject.SetActive(false);
+            menuManager.LoseGame();
         }
     }
 

@@ -9,13 +9,15 @@ public class Door : MonoBehaviour
 
     private void Start() {
         CloseDoor();
+        
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.CompareTag("player")) {
             PlayerInventory inventory = other.GetComponent<PlayerInventory>();
-            if (inventory != null && inventory.HasKey()) {
+            if (inventory != null && inventory.GetKeys()>=0) {
                 OpenDoor();
+                inventory.UseKey();
             }
         } 
     }

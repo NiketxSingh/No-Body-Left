@@ -4,15 +4,19 @@ using UnityEngine;
 
 public class PlayerInventory : MonoBehaviour
 {
-    private bool hasKey = false;
+    private int keyCount = 0;
     private int scrollCount = 0;
 
     private GameObject player;
     private PlayerDeath playerDeath;
+    [SerializeField] private GameObject MenuManager_GO;
+    private MenuManager menuManager;
 
     private void Start() {
         player = GameObject.FindGameObjectWithTag("player");
         playerDeath = player.GetComponent<PlayerDeath>();
+        menuManager = MenuManager_GO.GetComponent<MenuManager>();
+
     }
 
     private void Update() {
@@ -23,17 +27,20 @@ public class PlayerInventory : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.gameObject.CompareTag("key")) {
-            hasKey = true;
+            keyCount++;
             Destroy(other.gameObject);
         }
         else if (other.gameObject.CompareTag("scroll")) {
             scrollCount++;
             Destroy(other.gameObject);
         }
+        else if (other.gameObject.CompareTag("end")) {
+            menuManager.WinGame();
+        }
     }
 
-    public bool HasKey() {
-        return hasKey;
+    public void UseKey() {
+        keyCount--;
     }
 
     private void UseScroll(PlayerDeath playerDeath) {
@@ -41,5 +48,12 @@ public class PlayerInventory : MonoBehaviour
             scrollCount--;
             playerDeath.UpdateLives(2);
         }
+    }
+
+    public int GetKeys() {
+        return keyCount;
+    }
+    public int GetScrolls() {
+        return scrollCount;
     }
 }

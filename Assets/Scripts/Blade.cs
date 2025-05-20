@@ -15,9 +15,9 @@ public class Blade : MonoBehaviour {
     }
 
     private void Update() {
-        Quaternion currentRoatation = transform.rotation;
+        Quaternion currentRotation = transform.rotation;
         Quaternion targetRotation = Quaternion.Euler(0, 0, targetAngle);
-        transform.rotation = Quaternion.RotateTowards(currentRoatation,targetRotation,rotationSpeed);
+        transform.rotation = Quaternion.RotateTowards(currentRotation,targetRotation,rotationSpeed);
 
         float diff = Mathf.DeltaAngle(transform.eulerAngles.z, targetAngle);
         if(Mathf.Abs(diff)< 1f) {
