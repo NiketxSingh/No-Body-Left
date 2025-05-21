@@ -111,7 +111,7 @@ GameObject:
   - component: {fileID: 6431512734083386803}
   m_Layer: 6
   m_Name: movingplatform
-  m_TagString: ground
+  m_TagString: movingplatform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -214,7 +214,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 6200000, guid: f41b6531916a5ed47b0724c94e974018, type: 2}
+  m_Material: {fileID: 6200000, guid: 29ae3f54c509c4140bbcdc124fc30303, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0

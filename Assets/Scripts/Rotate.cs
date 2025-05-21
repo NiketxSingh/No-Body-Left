@@ -9,9 +9,11 @@ public class Rotate : MonoBehaviour {
     [SerializeField] private float openAngle = 0;
     [SerializeField] private float closeAngle= -90;
     [SerializeField] private float rotationSpeed = 0.5f;
+    private bool body = false;
 
     private void Start() {
         targetAngle = closeAngle;
+        body = false;
     }
 
     private void Update() {
@@ -29,10 +31,18 @@ public class Rotate : MonoBehaviour {
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.CompareTag("dead")) {
             onPlate = true;
+            body = true;
+        }
+        else if (other.CompareTag("player") && !body) {
+            onPlate = true;    
         }
     }
     private void OnTriggerExit2D(Collider2D other) {
         if (other.CompareTag("dead")) {
+            onPlate = false;
+            body = false;
+        }
+        else if (other.CompareTag("player") && !body) {
             onPlate = false;
         }
     }

@@ -15,7 +15,7 @@ public class Door : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.CompareTag("player")) {
             PlayerInventory inventory = other.GetComponent<PlayerInventory>();
-            if (inventory != null && inventory.GetKeys()>=0) {
+            if (inventory != null && inventory.GetKeys()>0) {
                 OpenDoor();
                 inventory.UseKey();
             }

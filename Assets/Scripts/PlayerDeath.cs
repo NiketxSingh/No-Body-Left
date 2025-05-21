@@ -6,6 +6,8 @@ using UnityEngine;
 public class PlayerDeath : MonoBehaviour {
     [SerializeField] private int lives = 10;
     [SerializeField] private GameObject deadPrefab;
+    [SerializeField] private GameObject ghostPrefab;
+    [SerializeField] private GameObject blastPrefab;
     [SerializeField] private float deadTime = 50f;
     private Transform spawnLocation;
 
@@ -45,6 +47,7 @@ public class PlayerDeath : MonoBehaviour {
 
     private void SelfDeath() {
         lives--;
+        SpawnGhost(transform.position);
         StartCoroutine(StayingDead());
         transform.position = spawnLocation.position;
     }
@@ -52,10 +55,13 @@ public class PlayerDeath : MonoBehaviour {
     private void BlastDeath() {
         lives--;
         TriggerBlast(transform.position, blastRadius);
+        BlastPlayer(transform.position);
+        SpawnGhost(transform.position);
         transform.position = spawnLocation.position;
     }
     private void NormalDeath() {
         lives--;
+        SpawnGhost(transform.position);
         transform.position = spawnLocation.position;
     }
 
@@ -83,7 +89,58 @@ public class PlayerDeath : MonoBehaviour {
         if (newLives > 0 && newLives <= 10) {
             lives = newLives;
         }
-    } 
+    }
+
+    private void SpawnGhost(Vector3 deathPos) {
+        GameObject ghost = Instantiate(ghostPrefab, deathPos, Quaternion.identity);
+        StartCoroutine(GhostFloatAndDestroy(ghost));
+    }
+    private IEnumerator GhostFloatAndDestroy(GameObject ghost) {
+        float duration = 2f;
+        float elapsed = 0f;
+        Vector3 startPos = ghost.transform.position;
+        SpriteRenderer sr = ghost.GetComponentInChildren<SpriteRenderer>();
+
+        while (elapsed < duration) {
+
+            float yOffset = Mathf.Lerp(0f, 2f, elapsed / duration);
+            float xOffset = Mathf.Sin(elapsed * 5f) * 0.1f;
+
+            ghost.transform.position = startPos + new Vector3(xOffset, yOffset, 0f);
+
+            float alpha = Mathf.Lerp(1f, 0f, elapsed / duration);
+            sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, alpha);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+        Destroy(ghost);
+    }
+
+    private void BlastPlayer(Vector3 deathPos) {
+        GameObject blast = Instantiate(blastPrefab, deathPos, Quaternion.identity);
+        StartCoroutine(BlastAndFadeAway(blast));
+    }
+    private IEnumerator BlastAndFadeAway(GameObject blast) {
+        float duration = 0.8f;
+        float elapsed = 0f;
+        SpriteRenderer sr = blast.GetComponentInChildren<SpriteRenderer>();
+
+        Vector3 startScale = Vector3.zero;
+        Vector3 endScale = Vector3.one * 3f;
+
+        while (elapsed < duration) { 
+
+            blast.transform.localScale =Vector3.Lerp(startScale,endScale,elapsed / duration);
+
+            Color c = Color.Lerp(Color.red,Color.yellow, elapsed / duration);
+            c.a = Mathf.Lerp(1f,0f,elapsed / duration);
+            sr.color = c;
+            
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+        Destroy(blast);
+    }
 }
 
 

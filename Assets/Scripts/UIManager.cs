@@ -5,11 +5,9 @@ using TMPro;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI livesText;
     [SerializeField] private TextMeshProUGUI keysText;
     [SerializeField] private TextMeshProUGUI scrollsText;
 
-    private int lastLives = -1;
     private int lastKeys = -1;
     private int lastScrolls = -1;
 
@@ -29,22 +27,16 @@ public class UIManager : MonoBehaviour
 
 
     private void Update() {
-        int currentLives = playerDeath.GetLives();
         int currentKeys = playerInventory.GetKeys();
         int currentScrolls = playerInventory.GetScrolls();
 
-        if (currentLives != lastLives) {
-            livesText.text = "LIVES: " + currentLives;
-            lastLives = currentLives;
-        }
-
         if (currentKeys != lastKeys) {
-            keysText.text = "KEYS: " + currentKeys;
+            keysText.text = currentKeys.ToString();
             lastKeys = currentKeys;
         }
 
         if (currentScrolls != lastScrolls) {
-            scrollsText.text = "SCROLLS: " + currentScrolls;
+            scrollsText.text = currentScrolls.ToString();
             lastScrolls = currentScrolls;
         }
 
