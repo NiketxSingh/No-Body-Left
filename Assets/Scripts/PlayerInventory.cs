@@ -22,6 +22,7 @@ public class PlayerInventory : MonoBehaviour
     private void Start() {
         player = GameObject.FindGameObjectWithTag("player");
         playerDeath = player.GetComponent<PlayerDeath>();
+        menuManager = MenuManager_GO.GetComponent<MenuManager>();
     }
 
     private void Update() {

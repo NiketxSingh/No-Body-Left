@@ -113,13 +113,21 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {
-        if (collision.gameObject.CompareTag("movingplatform") && (transform.position.y > collision.gameObject.transform.position.y)) {
-            transform.parent = collision.transform;
+        if (collision.gameObject.CompareTag("movingplatform")) {
+            foreach (ContactPoint2D contact in collision.contacts) {
+                if (contact.normal.y >= 0.9f && rb.velocity.y <= 0) {
+                    transform.parent = collision.transform;
+                    break;
+                }
+            }
         }
     }
+
     private void OnCollisionExit2D(Collision2D collision) {
-        if (collision.gameObject.CompareTag("movingplatform") && (transform.position.y > collision.gameObject.transform.position.y)) {
+        if (collision.gameObject.CompareTag("movingplatform")) {
             transform.parent = null;
         }
     }
+
+
 }
