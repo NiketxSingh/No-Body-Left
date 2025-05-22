@@ -1,9 +1,9 @@
 # No-Body-Left
 
-Contribution- Entire game including all the coding, art and level design.
+Contribution- Solo developer responsible for programming the game mechanics, art and animations and level design. Royalty-free music downloaded and used.
 
 CONTROLS:
-|Movement - WASD 
+|Movement - A/D or <- / -> 
 |Jump - Spacebar
 |SelfDeath - K (Leaves a corpse where you die)
 |BlastDeath - L (Blasts in a radius where you die)
