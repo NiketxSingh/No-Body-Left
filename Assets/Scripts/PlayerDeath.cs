@@ -23,6 +23,14 @@ public class PlayerDeath : MonoBehaviour {
     [SerializeField] private GameObject MenuManager_GO;
     private MenuManager menuManager;
 
+    GameObject audioManager_GO;
+    AudioManager audioManager;
+
+    private void Awake() {
+        audioManager_GO = GameObject.FindGameObjectWithTag("audiomanager");
+        audioManager = audioManager_GO.GetComponent<AudioManager>();
+    }
+
     private void Start() {
         cameraManager_ = cameraManager_GO.GetComponent<Cameramanager>();
         menuManager = MenuManager_GO.GetComponent<MenuManager>();
@@ -53,6 +61,7 @@ public class PlayerDeath : MonoBehaviour {
     }
 
     private void BlastDeath() {
+        audioManager.PlaySFX(audioManager.blast_death);
         lives--;
         TriggerBlast(transform.position, blastRadius);
         BlastPlayer(transform.position);
@@ -77,6 +86,7 @@ public class PlayerDeath : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.CompareTag("obstacle") || other.CompareTag("enemy")) {
+            audioManager.PlaySFX(audioManager.blade_death); 
             NormalDeath();
         }
     }
@@ -92,6 +102,7 @@ public class PlayerDeath : MonoBehaviour {
     }
 
     private void SpawnGhost(Vector3 deathPos) {
+        audioManager.PlaySFX(audioManager.ghost);
         GameObject ghost = Instantiate(ghostPrefab, deathPos, Quaternion.identity);
         StartCoroutine(GhostFloatAndDestroy(ghost));
     }

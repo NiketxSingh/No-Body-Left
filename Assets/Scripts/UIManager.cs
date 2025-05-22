@@ -12,7 +12,8 @@ public class UIManager : MonoBehaviour
     private int lastScrolls = -1;
 
     public GameObject pauseMenu;
-    private bool isPaused = false;
+    public GameObject onScreenUI;
+    public bool isPaused = false;
 
 
     [SerializeField] private GameObject player;
@@ -21,6 +22,7 @@ public class UIManager : MonoBehaviour
 
     private void Awake() {
         pauseMenu.SetActive(false);
+        onScreenUI.SetActive(true);
         playerDeath = player.GetComponent<PlayerDeath>();
         playerInventory = player.GetComponent<PlayerInventory>();
     }
@@ -48,12 +50,14 @@ public class UIManager : MonoBehaviour
 
     public void ResumeGame() {
         pauseMenu.SetActive(false);
+        onScreenUI.SetActive(true);
         Time.timeScale = 1f; 
         isPaused = false;
     }
 
     public void PauseGame() {
         pauseMenu.SetActive(true);
+        onScreenUI.SetActive(false);
         Time.timeScale = 0f;
         isPaused = true;
     }

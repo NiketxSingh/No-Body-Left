@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,6 +22,7 @@ public class Cameramanager : MonoBehaviour {
     [SerializeField] Transform spawn5;
     private Transform spawnLocation;
 
+    public static event Action<Transform> CheckPointReached;
     void Start() {
         cam = Camera.main;
         spawnLocation = spawn1;
@@ -53,5 +55,9 @@ public class Cameramanager : MonoBehaviour {
 
     public Transform GetSpawnLocation() {
         return spawnLocation;
+    }
+
+    public static void TriggerBlast(Transform spawnLocation) {
+        CheckPointReached?.Invoke(spawnLocation);
     }
 }
