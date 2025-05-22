@@ -11,6 +11,9 @@ TagManager:
   - obstacle
   - enemy
   - scroll
+  - end
+  - movingplatform
+  - audiomanager
   layers:
   - Default
   - TransparentFX
